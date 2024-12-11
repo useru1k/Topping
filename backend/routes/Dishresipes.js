@@ -43,12 +43,12 @@ router.put('/edit/dish/:id',async(req,res)=>{
         return res.status(500).json({message:"error in update a dish"});
     }
 })
-router.get('/get/recipes/:name', async (req, res) => {
+router.get('/get/recipes/:id', async (req, res) => {
     try {
-        const dishName = req.params.name;
+        const dishId = req.params.id;
         const recipe= new Recipe(req.body);
         
-        const dish = await Dish.findOne({ name: dishName });
+        const dish = await Dish.findOne({ _id: dishId });
         if (!dish) {
             return res.status(404).json({ message: "Dish not found" });
         }
@@ -61,11 +61,11 @@ router.get('/get/recipes/:name', async (req, res) => {
 });
 
 
-router.post('/recipes/add/:name', async (req, res) => {
+router.post('/recipes/add/:id', async (req, res) => {
     try {
-        const dishName = req.params.name;
+        const dishId = req.params.id;
         
-        const dish = await Dish.findOne({ name: dishName });
+        const dish = await Dish.findOne({ _id: dishId });
         if (!dish) {
             return res.status(404).json({ message: "Dish not found" });
         }
@@ -81,11 +81,11 @@ router.post('/recipes/add/:name', async (req, res) => {
         return res.status(500).json({ message: "Error saving recipe", error });
     }
 });
-router.delete('/delete/:name', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
     try {
-        const dishName = req.params.name;
-        console.log("Attempting to delete dish:", dishName);
-        const deletedDish = await Dish.findOneAndDelete({ name: dishName });
+        const dishId = req.params.id;
+        console.log("Attempting to delete dish:", dishId);
+        const deletedDish = await Dish.findOneAndDelete({ _id: dishId });
         if (!deletedDish) {
             return res.status(404).json({ message: "Dish not found" });
         }
